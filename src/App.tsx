@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,11 @@ import TeamManagement from "./pages/TeamManagement";
 import Tournaments from "./pages/Tournaments";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminFieldManagement from "./pages/admin/AdminFieldManagement";
+import AdminUserManagement from "./pages/admin/AdminUserManagement";
+import AdminTournamentManagement from "./pages/admin/AdminTournamentManagement";
+import AdminPaymentVerification from "./pages/admin/AdminPaymentVerification";
+import AdminGameRequestManagement from "./pages/admin/AdminGameRequestManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +43,11 @@ const App = () => (
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/fields" element={<AdminFieldManagement />} />
+          <Route path="/admin/users" element={<AdminUserManagement />} />
+          <Route path="/admin/tournaments" element={<AdminTournamentManagement />} />
+          <Route path="/admin/payments" element={<AdminPaymentVerification />} />
+          <Route path="/admin/game-requests" element={<AdminGameRequestManagement />} />
           
           {/* Catch-all Route */}
           <Route path="*" element={<NotFound />} />
