@@ -52,6 +52,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+                // Playtopia Arena Hub custom colors
+                playtopia: {
+                    field: "#22c55e",    // Vibrant green for fields
+                    team: "#2563eb",     // Strong blue for teamwork
+                    energy: "#f97316",   // Vibrant orange for energy/action
+                    light: "#f0fdf4",    // Light green background
+                    dark: "#0f172a",     // Dark blue for contrast
+                },
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
