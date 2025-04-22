@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -40,6 +39,7 @@ const App = () => (
           <Route path="/teams" element={<TeamManagement />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/tournaments/:tournamentId/register" element={<(await import('./pages/TournamentsRegisterTeam')).default />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
