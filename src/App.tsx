@@ -12,7 +12,6 @@ import FieldBooking from "./pages/FieldBooking";
 import TeamManagement from "./pages/TeamManagement";
 import Tournaments from "./pages/Tournaments";
 import Profile from "./pages/Profile";
-import TournamentsRegisterTeam from "./pages/TournamentsRegisterTeam";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminFieldManagement from "./pages/admin/AdminFieldManagement";
 import AdminUserManagement from "./pages/admin/AdminUserManagement";
@@ -41,7 +40,6 @@ const App = () => (
           <Route path="/teams" element={<TeamManagement />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/tournaments/:tournamentId/register" element={<TournamentsRegisterTeam />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
