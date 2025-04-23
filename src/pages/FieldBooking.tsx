@@ -1,12 +1,11 @@
-
 import { useState } from "react";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, MapPin, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Users } from "lucide-react";
 import { format } from "date-fns";
 
 // Mock data for field options
@@ -14,18 +13,18 @@ const fieldTypes = ["Football", "Cricket", "Badminton"];
 
 const availableFields = {
   "Football": [
-    { id: 1, name: "Football Field A", location: "City Sports Complex", price: "$40/hour", available: true },
-    { id: 2, name: "Football Field B", location: "North Stadium", price: "$35/hour", available: true },
-    { id: 3, name: "5-a-side Turf", location: "East Sports Club", price: "$25/hour", available: true },
+    { id: 1, name: "Football Field A", location: "City Sports Complex", price: 4000, maxPlayers: 22, available: true },
+    { id: 2, name: "Football Field B", location: "North Stadium", price: 3500, maxPlayers: 22, available: false },
+    { id: 3, name: "5-a-side Turf", location: "East Sports Club", price: 2500, maxPlayers: 10, available: true },
   ],
   "Cricket": [
-    { id: 4, name: "Cricket Ground 1", location: "City Sports Complex", price: "$50/hour", available: true },
-    { id: 5, name: "Cricket Nets", location: "East Sports Club", price: "$15/hour", available: true },
+    { id: 4, name: "Cricket Ground 1", location: "City Sports Complex", price: 5000, maxPlayers: 22, available: true },
+    { id: 5, name: "Cricket Nets", location: "East Sports Club", price: 1500, maxPlayers: 4, available: false },
   ],
   "Badminton": [
-    { id: 6, name: "Badminton Court 1", location: "Indoor Arena", price: "$20/hour", available: true },
-    { id: 7, name: "Badminton Court 2", location: "Indoor Arena", price: "$20/hour", available: true },
-    { id: 8, name: "Badminton Court 3", location: "East Sports Club", price: "$18/hour", available: true },
+    { id: 6, name: "Badminton Court 1", location: "Indoor Arena", price: 2000, maxPlayers: 4, available: true },
+    { id: 7, name: "Badminton Court 2", location: "Indoor Arena", price: 2000, maxPlayers: 4, available: true },
+    { id: 8, name: "Badminton Court 3", location: "East Sports Club", price: 1800, maxPlayers: 4, available: false },
   ],
 };
 
@@ -98,7 +97,7 @@ const FieldBooking = () => {
                     {availableFields[type as keyof typeof availableFields].map((field) => (
                       <Card 
                         key={field.id} 
-                        className={`cursor-pointer transition-all ${selectedField === field.id ? 'ring-2 ring-playtopia-field' : 'hover:shadow-md'}`}
+                        className={`cursor-pointer transition-all ${selectedField === field.id ? 'ring-2 ring-primary' : 'hover:shadow-md'}`}
                         onClick={() => setSelectedField(field.id)}
                       >
                         <CardHeader className="pb-2">
@@ -111,7 +110,16 @@ const FieldBooking = () => {
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <p className="font-semibold text-playtopia-dark">{field.price}</p>
+                          <div className="space-y-2">
+                            <p className="font-semibold text-primary">BDT {field.price.toLocaleString()}/hour</p>
+                            <div className="flex items-center gap-1">
+                              <Users className="h-4 w-4" />
+                              <span className="text-sm">Max Capacity: {field.maxPlayers} players</span>
+                            </div>
+                            <Badge variant={field.available ? "default" : "destructive"}>
+                              {field.available ? "Available" : "Not Available"}
+                            </Badge>
+                          </div>
                           {selectedField === field.id && (
                             <div className="mt-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full inline-block">
                               Selected
@@ -154,8 +162,8 @@ const FieldBooking = () => {
                         key={slot}
                         className={`p-2 text-sm rounded-md border transition-colors ${
                           selectedTimeSlot === slot
-                            ? 'border-playtopia-field bg-playtopia-field/10 text-playtopia-field'
-                            : 'border-gray-200 hover:border-playtopia-field hover:bg-playtopia-field/5'
+                            ? 'border-primary bg-primary/10 text-primary'
+                            : 'border-gray-200 hover:border-primary hover:bg-primary/5'
                         }`}
                         onClick={() => setSelectedTimeSlot(slot)}
                       >
