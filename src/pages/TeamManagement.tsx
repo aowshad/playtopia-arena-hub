@@ -1,4 +1,3 @@
-
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
@@ -212,26 +211,10 @@ const TeamManagement = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Team Privacy</Label>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="border rounded-lg p-4 cursor-pointer bg-gray-50">
-                        <div className="font-medium mb-1">Public</div>
-                        <div className="text-sm text-gray-500">Anyone can find and join your team</div>
-                      </div>
-                      <div className="border rounded-lg p-4 cursor-pointer border-playtopia-field/50 bg-playtopia-field/5">
-                        <div className="font-medium mb-1">Private</div>
-                        <div className="text-sm text-gray-500">Only invited players can join</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-6 mt-auto">
-                    <Button className="w-full">
-                      <PlusCircle className="mr-2 h-4 w-4" />
-                      Create Team
-                    </Button>
-                  </div>
+                  <Button className="w-full">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Create Team
+                  </Button>
                 </div>
               </div>
             </div>
