@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
@@ -10,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Calendar, Trophy, Mail, Phone, Key } from "lucide-react";
 
-// Mock user data
 const userData = {
   name: "John Doe",
   email: "john.doe@example.com",
@@ -19,14 +17,12 @@ const userData = {
   avatar: "",
 };
 
-// Mock booking history
 const bookingHistory = [
   { id: 1, fieldName: "Football Field A", date: "2025-04-15", time: "18:00 - 19:30", status: "Completed" },
   { id: 2, fieldName: "Badminton Court 3", date: "2025-04-10", time: "10:00 - 12:00", status: "Completed" },
   { id: 3, fieldName: "Cricket Ground 1", date: "2025-03-25", time: "15:00 - 17:00", status: "Cancelled" },
 ];
 
-// Mock tournament history
 const tournamentHistory = [
   { id: 1, name: "Winter Football Cup", date: "February 2025", result: "Quarter-finals", team: "City Strikers" },
   { id: 2, name: "Badminton Tournament", date: "March 2025", result: "Runner-up", team: "Shuttle Stars" },
@@ -47,7 +43,6 @@ const Profile = () => {
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would send the updated data to your backend
     console.log("Updated profile:", formData);
     setIsEditing(false);
   };
@@ -64,7 +59,6 @@ const Profile = () => {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Profile Summary Card */}
             <Card className="lg:col-span-1">
               <CardHeader className="pb-4 text-center">
                 <Avatar className="w-24 h-24 mx-auto mb-4">
@@ -93,7 +87,6 @@ const Profile = () => {
               </CardFooter>
             </Card>
             
-            {/* Main Content */}
             <div className="lg:col-span-2">
               {isEditing ? (
                 <Card>
@@ -156,16 +149,13 @@ const Profile = () => {
                 </Card>
               ) : (
                 <Tabs defaultValue="activity" className="space-y-6">
-                  <TabsList className="grid w-full grid-cols-3">
+                  <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="activity">Activity</TabsTrigger>
-                    <TabsTrigger value="settings">Account Settings</TabsTrigger>
                     <TabsTrigger value="security">Security</TabsTrigger>
                   </TabsList>
                   
-                  {/* Activity Tab */}
                   <TabsContent value="activity">
                     <div className="space-y-6">
-                      {/* Booking History */}
                       <Card>
                         <CardHeader className="pb-2">
                           <CardTitle className="text-lg flex items-center">
@@ -198,7 +188,6 @@ const Profile = () => {
                         </CardContent>
                       </Card>
                       
-                      {/* Tournament History */}
                       <Card>
                         <CardHeader className="pb-2">
                           <CardTitle className="text-lg flex items-center">
@@ -230,50 +219,6 @@ const Profile = () => {
                     </div>
                   </TabsContent>
                   
-                  {/* Account Settings Tab */}
-                  <TabsContent value="settings">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Account Settings</CardTitle>
-                        <CardDescription>Manage your account preferences</CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="notifications">Email Notifications</Label>
-                          <div className="flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              id="notifications"
-                              className="h-4 w-4 rounded border-gray-300 text-playtopia-field focus:ring-playtopia-field"
-                              defaultChecked
-                            />
-                            <label htmlFor="notifications" className="text-sm text-gray-700">
-                              Receive emails about bookings, team invites, and tournaments
-                            </label>
-                          </div>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="language">Language</Label>
-                          <select
-                            id="language"
-                            className="w-full rounded-md border border-input bg-background px-3 py-2"
-                            defaultValue="en"
-                          >
-                            <option value="en">English</option>
-                            <option value="es">Spanish</option>
-                            <option value="fr">French</option>
-                          </select>
-                        </div>
-                        
-                        <div className="pt-4">
-                          <Button>Save Preferences</Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                  
-                  {/* Security Tab */}
                   <TabsContent value="security">
                     <Card>
                       <CardHeader>
