@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
@@ -6,26 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, MapPin, Clock } from "lucide-react";
+import { Calendar, MapPin, Clock, Users } from "lucide-react";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 // Mock data for field options
 const fieldTypes = ["Football", "Cricket", "Badminton"];
 
 const availableFields = {
   "Football": [
-    { id: 1, name: "Football Field A", location: "City Sports Complex", price: "$40/hour", available: true },
-    { id: 2, name: "Football Field B", location: "North Stadium", price: "$35/hour", available: true },
-    { id: 3, name: "5-a-side Turf", location: "East Sports Club", price: "$25/hour", available: true },
+    { id: 1, name: "Football Field A", location: "City Sports Complex", price: "$40/hour", maxCapacity: 22, available: true },
+    { id: 2, name: "Football Field B", location: "North Stadium", price: "$35/hour", maxCapacity: 22, available: false },
+    { id: 3, name: "5-a-side Turf", location: "East Sports Club", price: "$25/hour", maxCapacity: 10, available: true },
   ],
   "Cricket": [
-    { id: 4, name: "Cricket Ground 1", location: "City Sports Complex", price: "$50/hour", available: true },
-    { id: 5, name: "Cricket Nets", location: "East Sports Club", price: "$15/hour", available: true },
+    { id: 4, name: "Cricket Ground 1", location: "City Sports Complex", price: "$50/hour", maxCapacity: 30, available: true },
+    { id: 5, name: "Cricket Nets", location: "East Sports Club", price: "$15/hour", maxCapacity: 6, available: true },
   ],
   "Badminton": [
-    { id: 6, name: "Badminton Court 1", location: "Indoor Arena", price: "$20/hour", available: true },
-    { id: 7, name: "Badminton Court 2", location: "Indoor Arena", price: "$20/hour", available: true },
-    { id: 8, name: "Badminton Court 3", location: "East Sports Club", price: "$18/hour", available: true },
+    { id: 6, name: "Badminton Court 1", location: "Indoor Arena", price: "$20/hour", maxCapacity: 4, available: true },
+    { id: 7, name: "Badminton Court 2", location: "Indoor Arena", price: "$20/hour", maxCapacity: 4, available: false },
+    { id: 8, name: "Badminton Court 3", location: "East Sports Club", price: "$18/hour", maxCapacity: 4, available: true },
   ],
 };
 
@@ -98,11 +98,18 @@ const FieldBooking = () => {
                     {availableFields[type as keyof typeof availableFields].map((field) => (
                       <Card 
                         key={field.id} 
-                        className={`cursor-pointer transition-all ${selectedField === field.id ? 'ring-2 ring-playtopia-field' : 'hover:shadow-md'}`}
-                        onClick={() => setSelectedField(field.id)}
+                        className={`cursor-pointer transition-all ${
+                          selectedField === field.id ? 'ring-2 ring-playtopia-field' : 'hover:shadow-md'
+                        } ${!field.available ? 'opacity-75' : ''}`}
+                        onClick={() => field.available && setSelectedField(field.id)}
                       >
                         <CardHeader className="pb-2">
-                          <CardTitle className="text-lg">{field.name}</CardTitle>
+                          <div className="flex justify-between items-start">
+                            <CardTitle className="text-lg">{field.name}</CardTitle>
+                            <Badge variant={field.available ? "success" : "destructive"}>
+                              {field.available ? "Available" : "Unavailable"}
+                            </Badge>
+                          </div>
                           <CardDescription>
                             <div className="flex items-center">
                               <MapPin className="h-4 w-4 mr-1" />
@@ -111,12 +118,18 @@ const FieldBooking = () => {
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <p className="font-semibold text-playtopia-dark">{field.price}</p>
-                          {selectedField === field.id && (
-                            <div className="mt-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full inline-block">
-                              Selected
+                          <div className="space-y-2">
+                            <p className="font-semibold text-playtopia-dark">{field.price}</p>
+                            <div className="flex items-center text-sm text-gray-600">
+                              <Users className="h-4 w-4 mr-1" />
+                              <span>Max Capacity: {field.maxCapacity} players</span>
                             </div>
-                          )}
+                            {selectedField === field.id && (
+                              <div className="mt-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full inline-block">
+                                Selected
+                              </div>
+                            )}
+                          </div>
                         </CardContent>
                       </Card>
                     ))}
