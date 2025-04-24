@@ -1,22 +1,13 @@
-# Welcome to your Lovable project
+
+# Welcome to your Sports Arena Management Project
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/01b8a03b-e205-401e-a38f-1b7fad7d3a1e
-
 ## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/01b8a03b-e205-401e-a38f-1b7fad7d3a1e) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -62,12 +53,13 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/01b8a03b-e205-401e-a38f-1b7fad7d3a1e) and click on Share -> Publish.
+You can deploy this project using various platforms like Vercel, Netlify, or GitHub Pages.
 
-## Can I connect a custom domain to my Lovable project?
+## Can I connect a custom domain to my project?
 
-Yes, you can!
+Yes, you can! Most deployment platforms allow you to connect a custom domain.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+To connect a domain, typically follow these steps:
+1. Choose a domain registrar
+2. Purchase and configure your domain
+3. Follow the domain connection instructions for your chosen deployment platform
