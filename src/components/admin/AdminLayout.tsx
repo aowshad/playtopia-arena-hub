@@ -2,13 +2,10 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
-  Activity, 
-  BarChart, 
+  Users, 
   Calendar, 
-  MessageSquare, 
-  Settings, 
   Trophy, 
-  Users
+  Activity
 } from "lucide-react";
 
 type AdminLayoutProps = {
@@ -39,10 +36,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         
         <nav className="mt-4">
           <div className="px-4 py-2 text-xs text-gray-400 uppercase">Main</div>
-          <Link to="/admin" className={`flex items-center space-x-2 px-4 py-3 ${isActive('/admin') ? 'bg-gray-800 border-l-4 border-playtopia-field text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white transition-colors'}`}>
-            <BarChart size={20} />
-            <span>Dashboard</span>
-          </Link>
           <Link to="/admin/users" className={`flex items-center space-x-2 px-4 py-3 ${isActive('/admin/users') ? 'bg-gray-800 border-l-4 border-playtopia-field text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white transition-colors'}`}>
             <Users size={20} />
             <span>Users</span>
@@ -55,19 +48,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             <Trophy size={20} />
             <span>Tournaments</span>
           </Link>
-          <Link to="/admin/game-requests" className={`flex items-center space-x-2 px-4 py-3 ${isActive('/admin/game-requests') ? 'bg-gray-800 border-l-4 border-playtopia-field text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white transition-colors'}`}>
-            <MessageSquare size={20} />
-            <span>Game Requests</span>
-          </Link>
-          
-          <div className="px-4 py-2 mt-4 text-xs text-gray-400 uppercase">System</div>
           <Link to="/admin/payments" className={`flex items-center space-x-2 px-4 py-3 ${isActive('/admin/payments') ? 'bg-gray-800 border-l-4 border-playtopia-field text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white transition-colors'}`}>
             <Activity size={20} />
             <span>Payments</span>
-          </Link>
-          <Link to="/admin/settings" className={`flex items-center space-x-2 px-4 py-3 ${isActive('/admin/settings') ? 'bg-gray-800 border-l-4 border-playtopia-field text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white transition-colors'}`}>
-            <Settings size={20} />
-            <span>Settings</span>
           </Link>
           
           <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -85,7 +68,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <div className="ml-64 w-full">
         <header className="bg-white shadow-sm py-4 px-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+            <h1 className="text-2xl font-bold text-gray-800">Admin Panel</h1>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-600">
                 Admin User

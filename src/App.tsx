@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -43,12 +43,11 @@ const App = () => (
           <Route path="/tournaments/:id/register" element={<TournamentRegisterTeam />} />
           
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin" element={<Navigate to="/admin/users" replace />} />
           <Route path="/admin/fields" element={<AdminFieldManagement />} />
           <Route path="/admin/users" element={<AdminUserManagement />} />
           <Route path="/admin/tournaments" element={<AdminTournamentManagement />} />
           <Route path="/admin/payments" element={<AdminPaymentVerification />} />
-          <Route path="/admin/game-requests" element={<AdminGameRequestManagement />} />
           
           {/* Catch-all Route */}
           <Route path="*" element={<NotFound />} />
