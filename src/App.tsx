@@ -19,6 +19,7 @@ import AdminPaymentVerification from "./pages/admin/AdminPaymentVerification";
 import AdminGameRequestManagement from "./pages/admin/AdminGameRequestManagement";
 import NotFound from "./pages/NotFound";
 import TournamentRegisterTeam from "./pages/TournamentRegisterTeam";
+import TournamentDetails from "./pages/TournamentDetails";
 
 const queryClient = new QueryClient();
 
@@ -29,27 +30,24 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
-          {/* User Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/fields" element={<FieldBooking />} />
           <Route path="/teams" element={<TeamManagement />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/tournaments/:id/register" element={<TournamentRegisterTeam />} />
+          <Route path="/tournaments/:id" element={<TournamentDetails />} />
           
-          {/* Admin Routes */}
           <Route path="/admin" element={<Navigate to="/admin/users" replace />} />
           <Route path="/admin/fields" element={<AdminFieldManagement />} />
           <Route path="/admin/users" element={<AdminUserManagement />} />
           <Route path="/admin/tournaments" element={<AdminTournamentManagement />} />
           <Route path="/admin/payments" element={<AdminPaymentVerification />} />
           
-          {/* Catch-all Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
