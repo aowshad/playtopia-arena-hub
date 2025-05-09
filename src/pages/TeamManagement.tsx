@@ -1,30 +1,133 @@
+
+import React, { useState } from "react";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Users, PlusCircle, User, UserPlus } from "lucide-react";
+import { Users, PlusCircle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { TeamCard } from "@/components/teams/TeamCard";
+import { CreateTeamForm } from "@/components/teams/CreateTeamForm";
+import { InviteMemberDialog } from "@/components/teams/InviteMemberDialog";
 
-// Mock data for teams
-const myTeams = [
+// Initial mock data
+const initialMyTeams = [
   { id: 1, name: "City Strikers", sport: "Football", members: 14, role: "Captain", avatar: "" },
   { id: 2, name: "Shuttle Stars", sport: "Badminton", members: 8, role: "Member", avatar: "" },
 ];
 
-const availableTeams = [
+const initialAvailableTeams = [
   { id: 3, name: "Cricket Kings", sport: "Cricket", members: 11, avatar: "" },
   { id: 4, name: "Football United", sport: "Football", members: 17, avatar: "" },
   { id: 5, name: "Racket Masters", sport: "Badminton", members: 6, avatar: "" },
 ];
 
-const invites = [
+const initialInvites = [
   { id: 1, teamName: "Bowling Legends", sport: "Bowling", invitedBy: "Sarah Johnson" },
 ];
 
 const TeamManagement = () => {
+  const [myTeams, setMyTeams] = useState(initialMyTeams);
+  const [availableTeams, setAvailableTeams] = useState(initialAvailableTeams);
+  const [invites, setInvites] = useState(initialInvites);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<any>(null);
+  
+  const { toast } = useToast();
+
+  // Filter available teams based on search term
+  const filteredAvailableTeams = availableTeams.filter(team => 
+    team.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    team.sport.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleTeamCreated = (newTeam: any) => {
+    setMyTeams(prev => [...prev, newTeam]);
+  };
+
+  const handleJoinTeam = (teamId: number) => {
+    const teamToJoin = availableTeams.find(team => team.id === teamId);
+    if (teamToJoin) {
+      // Add to my teams with role Member
+      const joinedTeam = { ...teamToJoin, role: "Member" };
+      setMyTeams(prev => [...prev, joinedTeam]);
+      
+      // Remove from available teams
+      setAvailableTeams(prev => prev.filter(team => team.id !== teamId));
+      
+      toast({
+        title: "Team Joined",
+        description: `You have successfully joined ${teamToJoin.name}.`,
+      });
+    }
+  };
+
+  const handleAcceptInvite = (inviteId: number) => {
+    const invite = invites.find(invite => invite.id === inviteId);
+    if (invite) {
+      // Add to my teams
+      const newTeam = {
+        id: Date.now(),
+        name: invite.teamName,
+        sport: invite.sport,
+        members: Math.floor(Math.random() * 10) + 5, // Random number of members
+        role: "Member",
+        avatar: ""
+      };
+      
+      setMyTeams(prev => [...prev, newTeam]);
+      
+      // Remove from invites
+      setInvites(prev => prev.filter(invite => invite.id !== inviteId));
+      
+      toast({
+        title: "Invitation Accepted",
+        description: `You are now a member of ${invite.teamName}.`,
+      });
+    }
+  };
+
+  const handleDeclineInvite = (inviteId: number) => {
+    setInvites(prev => prev.filter(invite => invite.id !== inviteId));
+    toast({
+      title: "Invitation Declined",
+      description: "You have declined the team invitation.",
+    });
+  };
+
+  const handleManageTeam = (teamId: number) => {
+    toast({
+      title: "Team Management",
+      description: "This would open team management settings.",
+    });
+  };
+
+  const handleSendInvite = (teamId: number) => {
+    const team = myTeams.find(team => team.id === teamId);
+    if (team && team.role === "Captain") {
+      setSelectedTeam(team);
+      setInviteDialogOpen(true);
+    } else {
+      toast({
+        title: "Permission Denied",
+        description: "Only team captains can send invitations.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleInviteMember = (email: string) => {
+    if (selectedTeam) {
+      toast({
+        title: "Invitation Sent",
+        description: `An invitation to join ${selectedTeam.name} has been sent to ${email}.`,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -36,11 +139,15 @@ const TeamManagement = () => {
               <h1 className="text-3xl font-bold">Team Management</h1>
               <p className="text-gray-600">Create, join, and manage your sports teams</p>
             </div>
-            <Button className="mt-4 md:mt-0" asChild>
-              <div>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Create New Team
-              </div>
+            <Button 
+              className="mt-4 md:mt-0" 
+              onClick={() => window.scrollTo({
+                top: document.getElementById("create-team-section")?.offsetTop || 0 - 100,
+                behavior: "smooth"
+              })}
+            >
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create New Team
             </Button>
           </div>
           
@@ -48,7 +155,7 @@ const TeamManagement = () => {
             <TabsList className="grid w-full max-w-md grid-cols-3">
               <TabsTrigger value="myTeams">My Teams</TabsTrigger>
               <TabsTrigger value="joinTeam">Join Team</TabsTrigger>
-              <TabsTrigger value="invites">Invites</TabsTrigger>
+              <TabsTrigger value="invites">Invites {invites.length > 0 && `(${invites.length})`}</TabsTrigger>
             </TabsList>
             
             {/* My Teams Tab */}
@@ -56,30 +163,13 @@ const TeamManagement = () => {
               {myTeams.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {myTeams.map(team => (
-                    <Card key={team.id}>
-                      <CardHeader className="pb-2">
-                        <div className="flex items-center justify-between">
-                          <CardTitle className="text-lg">{team.name}</CardTitle>
-                          <div className="px-3 py-1 text-xs font-medium rounded-full bg-playtopia-field/10 text-playtopia-field">
-                            {team.role}
-                          </div>
-                        </div>
-                        <CardDescription>{team.sport}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="pb-2">
-                        <div className="flex items-center">
-                          <Users className="h-4 w-4 mr-2 text-gray-500" />
-                          <span>{team.members} members</span>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="flex justify-between">
-                        <Button variant="outline" size="sm">Manage</Button>
-                        <Button variant="outline" size="sm">
-                          <UserPlus className="h-4 w-4 mr-1" />
-                          Invite
-                        </Button>
-                      </CardFooter>
-                    </Card>
+                    <TeamCard
+                      key={team.id}
+                      team={team}
+                      type="my-team"
+                      onManageTeam={handleManageTeam}
+                      onSendInvite={handleSendInvite}
+                    />
                   ))}
                 </div>
               ) : (
@@ -87,7 +177,12 @@ const TeamManagement = () => {
                   <CardContent className="py-12 text-center">
                     <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
                     <p className="text-gray-600 mb-4">You haven't joined any teams yet</p>
-                    <Button>Create Your First Team</Button>
+                    <Button onClick={() => window.scrollTo({
+                      top: document.getElementById("create-team-section")?.offsetTop || 0 - 100,
+                      behavior: "smooth"
+                    })}>
+                      Create Your First Team
+                    </Button>
                   </CardContent>
                 </Card>
               )}
@@ -101,6 +196,8 @@ const TeamManagement = () => {
                     <Input
                       placeholder="Search for teams..."
                       className="pl-10"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     <div className="absolute left-3 top-1/2 -translate-y-1/2">
                       <svg
@@ -121,23 +218,20 @@ const TeamManagement = () => {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {availableTeams.map(team => (
-                    <Card key={team.id}>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">{team.name}</CardTitle>
-                        <CardDescription>{team.sport}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="pb-2">
-                        <div className="flex items-center">
-                          <Users className="h-4 w-4 mr-2 text-gray-500" />
-                          <span>{team.members} members</span>
-                        </div>
-                      </CardContent>
-                      <CardFooter>
-                        <Button className="w-full" size="sm">Join Team</Button>
-                      </CardFooter>
-                    </Card>
-                  ))}
+                  {filteredAvailableTeams.length > 0 ? (
+                    filteredAvailableTeams.map(team => (
+                      <TeamCard
+                        key={team.id}
+                        team={team}
+                        type="available-team"
+                        onJoinTeam={handleJoinTeam}
+                      />
+                    ))
+                  ) : (
+                    <div className="col-span-3 py-8 text-center">
+                      <p className="text-gray-600">No teams found matching your search criteria.</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </TabsContent>
@@ -147,22 +241,14 @@ const TeamManagement = () => {
               {invites.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {invites.map(invite => (
-                    <Card key={invite.id}>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">{invite.teamName}</CardTitle>
-                        <CardDescription>{invite.sport}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="pb-2">
-                        <div className="flex items-center">
-                          <User className="h-4 w-4 mr-2 text-gray-500" />
-                          <span>Invited by {invite.invitedBy}</span>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="flex justify-between">
-                        <Button variant="outline" size="sm">Decline</Button>
-                        <Button size="sm">Accept</Button>
-                      </CardFooter>
-                    </Card>
+                    <TeamCard
+                      key={invite.id}
+                      team={{ id: invite.id, name: invite.teamName, sport: invite.sport, members: 0 }}
+                      type="invite"
+                      invitedBy={invite.invitedBy}
+                      onAcceptInvite={handleAcceptInvite}
+                      onDeclineInvite={handleDeclineInvite}
+                    />
                   ))}
                 </div>
               ) : (
@@ -177,50 +263,22 @@ const TeamManagement = () => {
           </Tabs>
           
           {/* Create Team Form Section */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          <div id="create-team-section" className="mt-12 pt-8 border-t border-gray-200">
             <h2 className="text-2xl font-bold mb-6">Create New Team</h2>
-            
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="team-name">Team Name</Label>
-                    <Input id="team-name" placeholder="Enter team name" />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="sport-type">Sport Type</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select sport" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="football">Football</SelectItem>
-                        <SelectItem value="cricket">Cricket</SelectItem>
-                        <SelectItem value="badminton">Badminton</SelectItem>
-                        <SelectItem value="basketball">Basketball</SelectItem>
-                        <SelectItem value="tennis">Tennis</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="team-description">Team Description (Optional)</Label>
-                    <Input id="team-description" placeholder="Brief description of your team" />
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
-                  <Button className="w-full">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Create Team
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <CreateTeamForm onTeamCreated={handleTeamCreated} />
           </div>
         </div>
       </main>
+      
+      {/* Invite Member Dialog */}
+      {selectedTeam && (
+        <InviteMemberDialog
+          isOpen={inviteDialogOpen}
+          teamName={selectedTeam.name}
+          onClose={() => setInviteDialogOpen(false)}
+          onInvite={handleInviteMember}
+        />
+      )}
       
       <Footer />
     </div>
