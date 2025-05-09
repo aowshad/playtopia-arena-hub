@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,12 +12,6 @@ import FieldBooking from "./pages/FieldBooking";
 import TeamManagement from "./pages/TeamManagement";
 import Tournaments from "./pages/Tournaments";
 import Profile from "./pages/Profile";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminFieldManagement from "./pages/admin/AdminFieldManagement";
-import AdminUserManagement from "./pages/admin/AdminUserManagement";
-import AdminTournamentManagement from "./pages/admin/AdminTournamentManagement";
-import AdminPaymentVerification from "./pages/admin/AdminPaymentVerification";
-import AdminGameRequestManagement from "./pages/admin/AdminGameRequestManagement";
 import NotFound from "./pages/NotFound";
 import TournamentRegisterTeam from "./pages/TournamentRegisterTeam";
 import TournamentDetails from "./pages/TournamentDetails";
@@ -41,12 +36,6 @@ const App = () => (
           <Route path="/profile" element={<Profile />} />
           <Route path="/tournaments/:id/register" element={<TournamentRegisterTeam />} />
           <Route path="/tournaments/:id" element={<TournamentDetails />} />
-          
-          <Route path="/admin" element={<Navigate to="/admin/users" replace />} />
-          <Route path="/admin/fields" element={<AdminFieldManagement />} />
-          <Route path="/admin/users" element={<AdminUserManagement />} />
-          <Route path="/admin/tournaments" element={<AdminTournamentManagement />} />
-          <Route path="/admin/payments" element={<AdminPaymentVerification />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
