@@ -58,12 +58,9 @@ const Index = () => {
                 <Calendar className="h-6 w-6 text-playtopia-field" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Field Booking</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600">
                 Browse and book sports facilities for football, cricket, badminton and more.
               </p>
-              <Link to="/fields" className="text-playtopia-field font-medium hover:underline">
-                Book a Field →
-              </Link>
             </div>
             
             {/* Feature 2 */}
@@ -72,12 +69,9 @@ const Index = () => {
                 <Users className="h-6 w-6 text-playtopia-team" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Team Management</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600">
                 Create teams, invite players, and organize your sports groups with ease.
               </p>
-              <Link to="/teams" className="text-playtopia-team font-medium hover:underline">
-                Manage Teams →
-              </Link>
             </div>
             
             {/* Feature 3 */}
@@ -86,12 +80,9 @@ const Index = () => {
                 <Trophy className="h-6 w-6 text-playtopia-energy" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Tournaments</h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-600">
                 Participate in tournaments, track schedules, and compete with other teams.
               </p>
-              <Link to="/tournaments" className="text-playtopia-energy font-medium hover:underline">
-                Join Tournaments →
-              </Link>
             </div>
           </div>
         </div>
